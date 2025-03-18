@@ -82,6 +82,11 @@ export default function Home() {
     const ctx = canvas.getContext("2d");
     const { x, y } = getCoordinates(e);
     
+    // Prevent default behavior to avoid scrolling on touch devices
+    if (e.type === 'touchstart') {
+      e.preventDefault();
+    }
+    
     // Start a new path without clearing the canvas
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -90,6 +95,12 @@ export default function Home() {
 
   const draw = (e) => {
     if (!isDrawing) return;
+    
+    // Prevent default behavior to avoid scrolling on touch devices
+    if (e.type === 'touchmove') {
+      e.preventDefault();
+    }
+    
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const { x, y } = getCoordinates(e);
@@ -203,6 +214,31 @@ export default function Home() {
     }
   };
 
+  // Add touch event prevention function
+  useEffect(() => {
+    // Function to prevent default touch behavior on canvas
+    const preventTouchDefault = (e) => {
+      if (isDrawing) {
+        e.preventDefault();
+      }
+    };
+
+    // Add event listener when component mounts
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.addEventListener('touchstart', preventTouchDefault, { passive: false });
+      canvas.addEventListener('touchmove', preventTouchDefault, { passive: false });
+    }
+
+    // Remove event listener when component unmounts
+    return () => {
+      if (canvas) {
+        canvas.removeEventListener('touchstart', preventTouchDefault);
+        canvas.removeEventListener('touchmove', preventTouchDefault);
+      }
+    };
+  }, [isDrawing]);
+
   return (
   <>
   <Head>
@@ -212,7 +248,7 @@ export default function Home() {
   </Head>
   <div className="min-h-screen notebook-paper-bg text-gray-900 flex flex-col justify-start items-center">     
       
-      <main className="container mx-auto px-3 sm:px-6 py-5 sm:py-10 max-w-5xl w-full">
+      <main className="container mx-auto px-3 sm:px-6 py-5 sm:py-10 pb-32 max-w-5xl w-full">
         {/* Header section with title and tools */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 sm:mb-6 gap-3">
           <div>
@@ -268,7 +304,7 @@ export default function Home() {
                 onTouchMove={draw}
                 onTouchEnd={stopDrawing}
                 className="border-2 border-black w-full  hover:cursor-crosshair
-                h-[70vh] min-h-[400px] bg-white/90"
+                h-[50vh] min-h-[400px] bg-white/90 touch-none"
               />
         </div>
         
