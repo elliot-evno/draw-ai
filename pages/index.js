@@ -304,7 +304,7 @@ export default function Home() {
                 onTouchMove={draw}
                 onTouchEnd={stopDrawing}
                 className="border-2 border-black w-full  hover:cursor-crosshair sm:h-[60vh]
-                h-[40vh] min-h-[400px] bg-white/90 touch-none"
+                h-[30vh] min-h-[320px] bg-white/90 touch-none"
               />
         </div>
         
