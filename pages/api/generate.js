@@ -1,6 +1,4 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import fs from 'node:fs';
-import path from 'node:path';
 
 export default async function handler(req, res) {
   // Only allow POST requests
@@ -9,15 +7,14 @@ export default async function handler(req, res) {
   }
 
   // Get prompt and drawing from request body
-  const { prompt, drawingData, saveToFile } = req.body;
+  const { prompt, drawingData } = req.body;
   
   // Log request details (truncating drawingData for brevity)
   console.log("API Request:", {
     prompt,
     hasDrawingData: !!drawingData,
     drawingDataLength: drawingData ? drawingData.length : 0,
-    drawingDataSample: drawingData ? `${drawingData.substring(0, 50)}... (truncated)` : null,
-    saveToFile
+    drawingDataSample: drawingData ? `${drawingData.substring(0, 50)}... (truncated)` : null
   });
   
   if (!prompt) {
@@ -80,26 +77,7 @@ export default async function handler(req, res) {
         const imageData = part.inlineData.data;
         console.log("Received image data, length:", imageData.length);
         
-        // Save the image to the public directory if requested
-        if (saveToFile) {
-          const publicDir = path.join(process.cwd(), 'public');
-          const fileName = `gemini-image-${Date.now()}.png`;
-          const filePath = path.join(publicDir, fileName);
-          
-          // Ensure the directory exists
-          if (!fs.existsSync(publicDir)) {
-            fs.mkdirSync(publicDir, { recursive: true });
-          }
-          
-          const buffer = Buffer.from(imageData, 'base64');
-          fs.writeFileSync(filePath, buffer);
-          
-          result.fileName = fileName;
-          result.filePath = `/public/${fileName}`;
-          console.log("Saved image to:", filePath);
-        }
-        
-        // Always include the base64 data in the response
+        // Include the base64 data in the response
         result.imageData = imageData;
       }
     }

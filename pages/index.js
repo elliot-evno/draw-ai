@@ -162,8 +162,7 @@ export default function Home() {
       // Create request payload
       const requestPayload = {
         prompt,
-        drawingData,
-        saveToFile: true
+        drawingData
       };
       
       // Log the request payload (without the full image data for brevity)
@@ -280,7 +279,7 @@ export default function Home() {
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="What should I add?"
+              placeholder="Add your change..."
               className="w-full p-3 sm:p-4 pr-12 sm:pr-14 text-sm sm:text-base border-2 border-black bg-white text-gray-800 shadow-sm focus:ring-2 focus:ring-gray-200 focus:outline-none transition-all font-mono"
               required
             />
