@@ -7,6 +7,7 @@ sdk: docker
 pinned: false
 license: apache-2.0
 app_port: 3000
+short_description: 'Gemini 2.0 native image generation co-doodling'
 ---
 
 # Gemini Co-Drawing
@@ -26,5 +27,3 @@ This is a [Next.js](https://nextjs.org) project that uses:
 - Next.js for the frontend and API routes
 - Google's Gemini 2.0 API for image generation
 - Canvas API for drawing functionality
-
-
