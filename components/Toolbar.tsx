@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Trash2, Download } from "lucide-react";
 
 interface ToolbarProps {
   undo: () => void;
@@ -11,6 +11,7 @@ interface ToolbarProps {
   colorInputRef: React.RefObject<HTMLInputElement>;
   handleColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clearCanvas: () => void;
+  downloadCanvas: () => void;
 }
 
 export default function Toolbar({ 
@@ -23,7 +24,8 @@ export default function Toolbar({
   handleKeyDown, 
   colorInputRef, 
   handleColorChange, 
-  clearCanvas 
+  clearCanvas, 
+  downloadCanvas
 }: ToolbarProps) {
   return (
     <menu className="flex items-center bg-gray-300 rounded-full p-2 shadow-sm self-start sm:self-auto">
@@ -81,6 +83,14 @@ export default function Toolbar({
         className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 ml-2"
       >
         <Trash2 className="w-5 h-5 text-gray-700" aria-label="Clear Canvas" />
+      </button>
+      <button
+        type="button"
+        onClick={downloadCanvas}
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 ml-2"
+        aria-label="Download Canvas"
+      >
+        <Download className="w-5 h-5 text-gray-700" />
       </button>
     </menu>
   );

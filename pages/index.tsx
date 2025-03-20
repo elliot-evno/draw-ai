@@ -101,6 +101,16 @@ export default function Home() {
     }
   };
 
+  const downloadCanvas = () => {
+    if (!canvasRef.current) return;
+    
+    const canvas = canvasRef.current;
+    const link = document.createElement('a');
+    link.download = 'drawing.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
   return (
     <>
       <Head>
@@ -123,6 +133,7 @@ export default function Home() {
               colorInputRef={colorInputRef as unknown as React.RefObject<HTMLInputElement>}
               handleColorChange={handleColorChange}
               clearCanvas={clearCanvas}
+              downloadCanvas={downloadCanvas}
             />
           </div>
           
