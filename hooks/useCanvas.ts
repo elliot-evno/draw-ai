@@ -6,8 +6,8 @@ export function useCanvas() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [penColor, setPenColor] = useState("#000000");
   const colorInputRef = useRef(null);
-  const [generatedImage, setGeneratedImage] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
   // Load background image when generatedImage changes

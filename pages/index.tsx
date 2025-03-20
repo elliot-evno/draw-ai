@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Toolbar from "../components/Toolbar";
 import Header from "../components/Header";
@@ -19,8 +19,6 @@ export default function Home() {
     penColor,
     setPenColor,
     colorInputRef,
-    generatedImage,
-    setGeneratedImage,
     history,
     setHistory,
     historyIndex,
@@ -31,18 +29,20 @@ export default function Home() {
     clearCanvas,
     undo,
     redo,
+    setGeneratedImage,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getCoordinates,
   } = useCanvas();
 
   useKeyboardEvents(undo, redo);
-  useTouchEvents(canvasRef as any, isDrawing);
+  useTouchEvents(canvasRef as React.RefObject<HTMLCanvasElement>, isDrawing);
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPenColor(e.target.value);
   };
 
   const openColorPicker = () => {
-    if (colorInputRef.current && 'click' in colorInputRef.current) {
+    if (colorInputRef.current) {
       (colorInputRef.current as HTMLInputElement).click();
     }
   };
@@ -79,10 +79,10 @@ export default function Home() {
         testImage.src = imageUrl;
         testImage.onload = () => {
           console.log("Image loaded successfully");
-          setGeneratedImage(imageUrl as any);
+          setGeneratedImage(imageUrl);
           
           const newHistory = history.slice(0, historyIndex + 1);
-          setHistory([...newHistory, imageUrl as never]);
+          setHistory([...newHistory, imageUrl]);
           setHistoryIndex(newHistory.length);
         };
         testImage.onerror = (err) => {

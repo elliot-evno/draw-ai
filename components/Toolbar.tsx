@@ -4,7 +4,7 @@ interface ToolbarProps {
   undo: () => void;
   redo: () => void;
   historyIndex: number;
-  history: any[]; // Replace 'any' with a more specific type if possible
+  history: string[]; // Changed from any[] to string[]
   openColorPicker: () => void;
   penColor: string;
   handleKeyDown: (e: React.KeyboardEvent) => void;

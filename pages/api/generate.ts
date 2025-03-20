@@ -28,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash-exp-image-generation",
     generationConfig: {
+      // @ts-ignore
       responseModalities: ['Text', 'Image']
     },
   });
@@ -36,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     let generationContent;
     
     // If drawingData is provided, include it as an image in the request
-    if (drawingData) {
+    if (typeof drawingData !== 'undefined' && drawingData !== null) {
       // Create a content part with the base64-encoded image
       const imagePart = {
         inlineData: {

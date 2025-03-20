@@ -1,18 +1,12 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Canvas({ 
-  canvasRef, 
-  backgroundImageRef, 
-  isDrawing, 
-  penColor, 
-  startDrawing, 
-  draw, 
-  stopDrawing 
+  canvasRef,
+  startDrawing,
+  draw,
+  stopDrawing
 }: {
   canvasRef: React.RefObject<HTMLCanvasElement>;
-  backgroundImageRef: React.RefObject<HTMLImageElement>;
-  isDrawing: boolean;
-  penColor: string;
   startDrawing: (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => void;
   draw: (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => void;
   stopDrawing: () => void;
