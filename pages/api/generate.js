@@ -67,6 +67,15 @@ export default async function handler(req, res) {
       imageData: null
     };
     
+    // Add validation for response structure
+    if (!response?.response?.candidates?.[0]?.content?.parts) {
+      console.error("Invalid API response structure:", response);
+      return res.status(500).json({
+        success: false,
+        error: 'Invalid API response structure'
+      });
+    }
+    
     // Process response parts
     for (const part of response.response.candidates[0].content.parts) {
       // Based on the part type, either get the text or image data
