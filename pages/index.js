@@ -11,6 +11,8 @@ export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [generatedImage, setGeneratedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   // Load background image when generatedImage changes
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function Home() {
       // Use the window.Image constructor to avoid conflict with Next.js Image component
       const img = new window.Image();
       img.onload = () => {
-        backgroundImageRef.current = img;
+        backgroundImageRef.current = img; 
         drawImageToCanvas();
       };
       img.src = generatedImage;
@@ -114,6 +116,7 @@ export default function Home() {
 
   const stopDrawing = () => {
     setIsDrawing(false);
+    saveCanvasState();
   };
 
   const clearCanvas = () => {
@@ -126,6 +129,8 @@ export default function Home() {
     
     setGeneratedImage(null);
     backgroundImageRef.current = null;
+    setHistory([]);
+    setHistoryIndex(-1);
   };
 
   const handleColorChange = (e) => {
@@ -141,6 +146,12 @@ export default function Home() {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       openColorPicker();
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+      e.preventDefault();
+      undo();
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+      e.preventDefault();
+      redo();
     }
   };
 
@@ -239,6 +250,64 @@ export default function Home() {
     };
   }, [isDrawing]);
 
+  // Add this function to save canvas state
+  const saveCanvasState = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const image = canvas.toDataURL();
+    const newHistory = history.slice(0, historyIndex + 1);
+    setHistory([...newHistory, image]);
+    setHistoryIndex(newHistory.length);
+  };
+
+  // Add undo/redo functions
+  const undo = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      restoreCanvasState(history[newIndex]);
+    }
+  };
+
+  const redo = () => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1;
+      setHistoryIndex(newIndex);
+      restoreCanvasState(history[newIndex]);
+    }
+  };
+
+  // Add function to restore canvas state
+  const restoreCanvasState = (imageSrc) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const img = new window.Image();
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = imageSrc;
+  };
+
+  // Add keyboard event listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        undo();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+        e.preventDefault();
+        redo();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [history, historyIndex]);
+
   return (
   <>
   <Head>
@@ -288,6 +357,30 @@ export default function Home() {
                 className="opacity-0 absolute w-px h-px"
                 aria-label="Select pen color"
               />
+            </button>
+            <button
+              type="button"
+              onClick={undo}
+              disabled={historyIndex <= 0}
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 disabled:opacity-50 disabled:hover:scale-100"
+              aria-label="Undo"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 7v6h6"/>
+                <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={redo}
+              disabled={historyIndex >= history.length - 1}
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 disabled:opacity-50 disabled:hover:scale-100"
+              aria-label="Redo"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 7v6h-6"/>
+                <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/>
+              </svg>
             </button>
             <button
               type="button"
