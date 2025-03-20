@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-export function useTouchEvents(canvasRef, isDrawing) {
+export function useTouchEvents(canvasRef: React.RefObject<HTMLCanvasElement>, isDrawing: boolean) {
   useEffect(() => {
-    const preventTouchDefault = (e) => {
+    const preventTouchDefault = (e: TouchEvent) => {
       if (isDrawing) {
         e.preventDefault();
       }

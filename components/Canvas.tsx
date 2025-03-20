@@ -13,8 +13,8 @@ export default function Canvas({
   backgroundImageRef: React.RefObject<HTMLImageElement>;
   isDrawing: boolean;
   penColor: string;
-  startDrawing: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  draw: (e: React.MouseEvent<HTMLCanvasElement>) => void;
+  startDrawing: (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => void;
+  draw: (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => void;
   stopDrawing: () => void;
 }) {
   // Load background image when generatedImage changes

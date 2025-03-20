@@ -1,5 +1,18 @@
 import { Trash2 } from "lucide-react";
 
+interface ToolbarProps {
+  undo: () => void;
+  redo: () => void;
+  historyIndex: number;
+  history: any[]; // Replace 'any' with a more specific type if possible
+  openColorPicker: () => void;
+  penColor: string;
+  handleKeyDown: (e: React.KeyboardEvent) => void;
+  colorInputRef: React.RefObject<HTMLInputElement>;
+  handleColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  clearCanvas: () => void;
+}
+
 export default function Toolbar({ 
   undo, 
   redo, 
@@ -11,7 +24,7 @@ export default function Toolbar({
   colorInputRef, 
   handleColorChange, 
   clearCanvas 
-}) {
+}: ToolbarProps) {
   return (
     <menu className="flex items-center bg-gray-300 rounded-full p-2 shadow-sm self-start sm:self-auto">
       <button

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 
 export function useCanvas() {
-  const canvasRef = useRef(null);
-  const backgroundImageRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const backgroundImageRef = useRef<HTMLImageElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [penColor, setPenColor] = useState("#000000");
   const colorInputRef = useRef(null);
@@ -31,36 +31,47 @@ export function useCanvas() {
 
   const initializeCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    setHistory([canvas.toDataURL()]);
+    setHistory([canvas.toDataURL() as never]);
     setHistoryIndex(0);
   };
 
   const drawImageToCanvas = () => {
     if (!canvasRef.current || !backgroundImageRef.current) return;
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current as HTMLCanvasElement;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImageRef.current, 0, 0, canvas.width, canvas.height);
   };
 
-  const getCoordinates = (e) => {
+  const getCoordinates = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
+    if (!rect) return { x: 0, y: 0 };
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
+    
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
     return {
-      x: (e.nativeEvent.offsetX || (e.nativeEvent.touches?.[0]?.clientX - rect.left)) * scaleX,
-      y: (e.nativeEvent.offsetY || (e.nativeEvent.touches?.[0]?.clientY - rect.top)) * scaleY
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
     };
   };
 
-  const startDrawing = (e) => {
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     const { x, y } = getCoordinates(e);
     if (e.type === 'touchstart') e.preventDefault();
     ctx.beginPath();
@@ -68,12 +79,14 @@ export function useCanvas() {
     setIsDrawing(true);
   };
 
-  const draw = (e) => {
+  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement> | React.KeyboardEvent<HTMLCanvasElement> | React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement> ) => {
     if (!isDrawing) return;
     if (e.type === 'touchmove') e.preventDefault();
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const { x, y } = getCoordinates(e);
+    if (!ctx) return;
+    const { x, y } = getCoordinates(e as React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>);
     ctx.lineWidth = 5;
     ctx.lineCap = "round";
     ctx.strokeStyle = penColor;
@@ -88,7 +101,9 @@ export function useCanvas() {
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setGeneratedImage(null);
@@ -101,7 +116,7 @@ export function useCanvas() {
     if (!canvas) return;
     const image = canvas.toDataURL();
     const newHistory = history.slice(0, historyIndex + 1);
-    setHistory([...newHistory, image]);
+    setHistory([...newHistory, image as never]);
     setHistoryIndex(newHistory.length);
   };
 
@@ -121,21 +136,22 @@ export function useCanvas() {
     }
   };
 
-  const restoreCanvasState = (imageSrc) => {
+  const restoreCanvasState = (imageSrc: string | null) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const img = new window.Image();
     img.onload = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
-      if (imageSrc.startsWith('data:image/png;base64')) {
-        setGeneratedImage(imageSrc);
+      if (imageSrc?.startsWith('data:image/png;base64')) {
+        setGeneratedImage(imageSrc as never);
       } else {
         setGeneratedImage(null);
       }
     };
-    img.src = imageSrc;
+    img.src = imageSrc as string;
   };
 
   return {

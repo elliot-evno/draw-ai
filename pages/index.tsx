@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Head from "next/head";
 import Toolbar from "../components/Toolbar";
 import Header from "../components/Header";
@@ -35,19 +35,19 @@ export default function Home() {
   } = useCanvas();
 
   useKeyboardEvents(undo, redo);
-  useTouchEvents(canvasRef, isDrawing);
+  useTouchEvents(canvasRef as any, isDrawing);
 
-  const handleColorChange = (e) => {
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPenColor(e.target.value);
   };
 
   const openColorPicker = () => {
-    if (colorInputRef.current) {
-      colorInputRef.current.click();
+    if (colorInputRef.current && 'click' in colorInputRef.current) {
+      (colorInputRef.current as HTMLInputElement).click();
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       openColorPicker();
     } else if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
@@ -59,7 +59,7 @@ export default function Home() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!canvasRef.current) return;
@@ -79,10 +79,10 @@ export default function Home() {
         testImage.src = imageUrl;
         testImage.onload = () => {
           console.log("Image loaded successfully");
-          setGeneratedImage(imageUrl);
+          setGeneratedImage(imageUrl as any);
           
           const newHistory = history.slice(0, historyIndex + 1);
-          setHistory([...newHistory, imageUrl]);
+          setHistory([...newHistory, imageUrl as never]);
           setHistoryIndex(newHistory.length);
         };
         testImage.onerror = (err) => {
@@ -120,7 +120,7 @@ export default function Home() {
               openColorPicker={openColorPicker}
               penColor={penColor}
               handleKeyDown={handleKeyDown}
-              colorInputRef={colorInputRef}
+              colorInputRef={colorInputRef as unknown as React.RefObject<HTMLInputElement>}
               handleColorChange={handleColorChange}
               clearCanvas={clearCanvas}
             />

@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -21,7 +22,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
   // Set responseModalities to include "Image" so the model can generate an image
   const model = genAI.getGenerativeModel({
@@ -87,7 +88,7 @@ export default async function handler(req, res) {
         console.log("Received image data, length:", imageData.length);
         
         // Include the base64 data in the response
-        result.imageData = imageData;
+        result.imageData = imageData as never;
       }
     }
     
@@ -97,7 +98,7 @@ export default async function handler(req, res) {
     console.error("Error generating content:", error);
     return res.status(500).json({ 
       success: false, 
-      error: error.message || 'Failed to generate image' 
+      error: (error as Error).message || 'Failed to generate image' 
     });
   }
 }

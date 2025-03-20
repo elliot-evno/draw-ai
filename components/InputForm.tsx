@@ -1,11 +1,18 @@
 import { SendHorizontal, LoaderCircle } from "lucide-react";
 
+interface InputFormProps {
+  prompt: string;
+  setPrompt: (prompt: string) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+}
+
 export default function InputForm({ 
   prompt, 
   setPrompt, 
   handleSubmit, 
   isLoading 
-}) {
+}: InputFormProps) {
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="relative">
