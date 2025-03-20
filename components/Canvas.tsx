@@ -8,13 +8,23 @@ export default function Canvas({
   startDrawing, 
   draw, 
   stopDrawing 
+}: {
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  backgroundImageRef: React.RefObject<HTMLImageElement>;
+  isDrawing: boolean;
+  penColor: string;
+  startDrawing: (e: React.MouseEvent<HTMLCanvasElement>) => void;
+  draw: (e: React.MouseEvent<HTMLCanvasElement>) => void;
+  stopDrawing: () => void;
 }) {
   // Load background image when generatedImage changes
   useEffect(() => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d');
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      if (ctx) {
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
     }
   }, []);
 
