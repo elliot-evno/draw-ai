@@ -196,12 +196,6 @@ export default function Home() {
         drawingData
       };
       
-      // Log the request payload (without the full image data for brevity)
-      console.log("Request payload:", {
-        ...requestPayload,
-        drawingData: drawingData ? `${drawingData.substring(0, 50)}... (truncated)` : null
-      });
-      
       // Send the drawing and prompt to the API
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -213,15 +207,14 @@ export default function Home() {
       
       const data = await response.json();
       
-      // Log the response (without the full image data for brevity)
-      console.log("Response:", {
-        ...data,
-        imageData: data.imageData ? `${data.imageData.substring(0, 50)}... (truncated)` : null
-      });
-      
       if (data.success && data.imageData) {
         const imageUrl = `data:image/png;base64,${data.imageData}`;
         setGeneratedImage(imageUrl);
+        
+        // Save the AI-generated image to history
+        const newHistory = history.slice(0, historyIndex + 1);
+        setHistory([...newHistory, imageUrl]);
+        setHistoryIndex(newHistory.length);
       } else {
         console.error("Failed to generate image:", data.error);
         alert("Failed to generate image. Please try again.");
@@ -299,6 +292,13 @@ export default function Home() {
     img.onload = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
+      
+      // Update generatedImage state if this is an AI-generated image
+      if (imageSrc.startsWith('data:image/png;base64')) {
+        setGeneratedImage(imageSrc);
+      } else {
+        setGeneratedImage(null);
+      }
     };
     img.src = imageSrc;
   };
