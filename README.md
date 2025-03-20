@@ -1,29 +1,62 @@
----
-title: Gemini Co-Drawing
-emoji: ✏️
-colorFrom: blue
-colorTo: purple
-sdk: docker
-pinned: false
-license: apache-2.0
-app_port: 3000
-short_description: 'Gemini 2.0 native image generation co-doodling'
----
+# Vibe Drawing
 
-# Gemini Co-Drawing
+A fork of [Gemini Co-Drawing](https://huggingface.co/spaces/Trudy/gemini-codrawing) - an interactive AI drawing assistant powered by Google's Gemini API.
 
-A collaborative drawing application powered by Google's Gemini 2.0 API for image generation. This app allows users to create drawings and have Gemini enhance or add to them based on text prompts.
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm (v8 or higher)
+- Google Gemini API key
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/vibe-drawing.git
+   cd vibe-drawing
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory with your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+### Running Locally
+To start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:3000`
+
+### Docker Setup
+You can also run the application using Docker:
+
+1. Build the Docker image:
+   ```bash
+   docker-compose build
+   ```
+
+2. Start the container:
+   ```bash
+   docker-compose up
+   ```
+
+The application will be available at `http://localhost:3000`
 
 ## Features
+- Interactive drawing canvas
+- AI-powered drawing suggestions
+- Undo/Redo functionality
+- Color picker for custom drawing colors
 
-- Interactive canvas for drawing
-- Color picker for customizing your drawings
-- Text prompt interface to instruct Gemini on what to add
-- Real-time image generation using Gemini 2.0
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request.
 
-## Technology Stack
-
-This is a [Next.js](https://nextjs.org) project that uses:
-- Next.js for the frontend and API routes
-- Google's Gemini 2.0 API for image generation
-- Canvas API for drawing functionality
+## License
+MIT License
