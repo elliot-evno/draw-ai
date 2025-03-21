@@ -1,4 +1,5 @@
 import { Trash2, Download, Eraser, Minus, Plus } from "lucide-react";
+import Slider from "../components/ui/Slider";
 
 interface ToolbarProps {
   undo: () => void;
@@ -15,8 +16,7 @@ interface ToolbarProps {
   toggleEraser: () => void;
   isEraserActive?: boolean;
   brushSize: number;
-  increaseBrushSize: () => void;
-  decreaseBrushSize: () => void;
+  setBrushSize: (size: number) => void;
 }
 
 export default function Toolbar({ 
@@ -34,8 +34,7 @@ export default function Toolbar({
   toggleEraser,
   isEraserActive = false,
   brushSize,
-  increaseBrushSize,
-  decreaseBrushSize
+  setBrushSize
 }: ToolbarProps) {
   return (
     <menu className="flex items-center bg-gray-300 rounded-full p-2 shadow-sm self-start sm:self-auto">
@@ -71,27 +70,20 @@ export default function Toolbar({
       </button>
       <div className="w-px h-8 bg-gray-400 mx-3"></div>
       
-      {/* Brush size controls */}
-      <div className="flex items-center bg-white rounded-full mx-1">
-        <button
-          type="button"
-          onClick={decreaseBrushSize}
-          disabled={brushSize <= 1}
-          className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-gray-50 disabled:opacity-50"
-          aria-label="Decrease brush size"
-        >
-          <Minus className="w-4 h-4 text-gray-700" />
-        </button>
-        <span className="text-xs font-medium w-6 text-center">{brushSize}</span>
-        <button
-          type="button"
-          onClick={increaseBrushSize}
-          disabled={brushSize >= 50}
-          className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-gray-50 disabled:opacity-50"
-          aria-label="Increase brush size"
-        >
-          <Plus className="w-4 h-4 text-gray-700" />
-        </button>
+      <div className="flex items-center space-x-2 w-32 mx-2">
+        <Slider
+          min={1}
+          max={20}
+          step={1}
+          value={[brushSize]}
+          onValueChange={(value) => {
+            setBrushSize(value[0]);
+          }}
+          className="w-full"
+        />
+        <span className="text-xs font-medium w-6 text-center">
+          {brushSize}
+        </span>
       </div>
       
       <div className="w-px h-8 bg-gray-400 mx-3"></div>

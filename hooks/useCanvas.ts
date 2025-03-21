@@ -89,7 +89,7 @@ export function useCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const { x, y } = getCoordinates(e as React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>);
-    ctx.lineWidth = brushSize;
+    ctx.lineWidth = brushSize * 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = isEraser ? "#FFFFFF" : penColor;
     ctx.lineTo(x, y);

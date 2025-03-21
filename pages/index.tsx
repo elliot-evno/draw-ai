@@ -118,14 +118,6 @@ export default function Home() {
     setIsEraser(!isEraser);
   };
 
-  const increaseBrushSize = () => {
-    setBrushSize((prevSize) => Math.min(prevSize + 1, 50)); // Limit max size to 50
-  };
-  
-  const decreaseBrushSize = () => {
-    setBrushSize((prevSize) => Math.max(prevSize - 1, 1)); // Minimum size of 1
-  };
-
   return (
     <>
       <Head>
@@ -152,8 +144,7 @@ export default function Home() {
               toggleEraser={toggleEraser}
               isEraserActive={isEraser}
               brushSize={brushSize}
-              increaseBrushSize={increaseBrushSize}
-              decreaseBrushSize={decreaseBrushSize}
+              setBrushSize={setBrushSize}
             />
           </div>
           
