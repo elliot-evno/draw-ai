@@ -31,35 +31,41 @@ export default function ThemeToggle({ className = '', darkMode, setDarkMode }: T
     setDarkMode(!darkMode);
   };
 
-  // Custom CSS for the toggle with inverted colors
+  // Custom CSS for the toggle with inverted colors and smaller size
   const toggleStyle = {
-    '--toggle-size': '16px',
+    '--toggle-size': '12px',
     fontSize: 'var(--toggle-size)',
-    width: '6.25em',
-    height: '3.125em',
-    // Inverted the gradient colors - dark on left, light on right
+    width: '5em',
+    height: '2.5em',
     backgroundImage: 'linear-gradient(to right, #2a2a2a 50%, #efefef 50%)',
     backgroundSize: '205%',
-    // Also inverted the position logic
     backgroundPosition: darkMode ? '100%' : '0',
     transition: '0.4s',
   } as React.CSSProperties;
 
   const knobStyle = {
-    content: '""',
-    width: '2.25em',
-    height: '2.25em', 
+    width: '1.8em',
+    height: '1.8em',
     position: 'absolute',
-    top: '0.438em',
-    left: darkMode ? 'calc(100% - 2.25em - 0.438em)' : '0.438em',
-    // Inverted the gradient colors for the knob as well
+    top: '0.35em',
+    left: darkMode ? 'calc(100% - 1.8em - 0.35em)' : '0.35em',
     backgroundImage: 'linear-gradient(to right, #2a2a2a 50%, #efefef 50%)',
     backgroundSize: '205%',
-    // Inverted the position logic for the knob
     backgroundPosition: darkMode ? '0' : '100%',
     borderRadius: '50%',
     transition: '0.4s',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   } as React.CSSProperties;
+
+  // Emoji styling
+  const emojiStyle = {
+    fontSize: '1.2em',
+    lineHeight: 1,
+    position: 'relative',
+    top: '-0.05em', // Small adjustment to vertically center the emoji
+  };
 
   return (
     <div className={`${className}`}>
@@ -74,11 +80,16 @@ export default function ThemeToggle({ className = '', darkMode, setDarkMode }: T
           className="rounded-full relative cursor-pointer"
           style={toggleStyle}
         >
-          <div 
-            style={knobStyle}
-          ></div>
+          {/* The knob with emoji */}
+          <div style={knobStyle}>
+            {/* Use emoji instead of SVG */}
+            <span style={emojiStyle}>
+              {darkMode ? '🌝' : '🌞'}
+            </span>
+          </div>
         </div>
       </label>
     </div>
   );
-} 
+}
+
