@@ -1,4 +1,4 @@
-import { Trash2, Download, Eraser } from "lucide-react";
+import { Trash2, Download, Eraser, Minus, Plus } from "lucide-react";
 
 interface ToolbarProps {
   undo: () => void;
@@ -14,6 +14,9 @@ interface ToolbarProps {
   downloadCanvas: () => void;
   toggleEraser: () => void;
   isEraserActive?: boolean;
+  brushSize: number;
+  increaseBrushSize: () => void;
+  decreaseBrushSize: () => void;
 }
 
 export default function Toolbar({ 
@@ -29,7 +32,10 @@ export default function Toolbar({
   clearCanvas, 
   downloadCanvas,
   toggleEraser,
-  isEraserActive = false
+  isEraserActive = false,
+  brushSize,
+  increaseBrushSize,
+  decreaseBrushSize
 }: ToolbarProps) {
   return (
     <menu className="flex items-center bg-gray-300 rounded-full p-2 shadow-sm self-start sm:self-auto">
@@ -64,6 +70,32 @@ export default function Toolbar({
         </span>
       </button>
       <div className="w-px h-8 bg-gray-400 mx-3"></div>
+      
+      {/* Brush size controls */}
+      <div className="flex items-center bg-white rounded-full mx-1">
+        <button
+          type="button"
+          onClick={decreaseBrushSize}
+          disabled={brushSize <= 1}
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-gray-50 disabled:opacity-50"
+          aria-label="Decrease brush size"
+        >
+          <Minus className="w-4 h-4 text-gray-700" />
+        </button>
+        <span className="text-xs font-medium w-6 text-center">{brushSize}</span>
+        <button
+          type="button"
+          onClick={increaseBrushSize}
+          disabled={brushSize >= 50}
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-gray-50 disabled:opacity-50"
+          aria-label="Increase brush size"
+        >
+          <Plus className="w-4 h-4 text-gray-700" />
+        </button>
+      </div>
+      
+      <div className="w-px h-8 bg-gray-400 mx-3"></div>
+      
       <button 
         type="button"
         className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110 ${isEraserActive ? 'bg-blue-200 border-blue-500' : 'bg-white'}`}
