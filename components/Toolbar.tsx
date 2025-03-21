@@ -42,10 +42,10 @@ export default function Toolbar({
         type="button"
         onClick={undo}
         disabled={historyIndex <= 0}
-        className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 disabled:opacity-50 disabled:hover:scale-100 group relative"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] disabled:opacity-50 disabled:hover:scale-100 group relative"
         aria-label="Undo"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#5f5f5f] transition-all active:scale-95" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 7v6h6"/>
           <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
         </svg>
@@ -57,10 +57,10 @@ export default function Toolbar({
         type="button"
         onClick={redo}
         disabled={historyIndex >= history.length - 1}
-        className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 disabled:opacity-50 disabled:hover:scale-100 group relative ml-2"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] disabled:opacity-50 disabled:hover:scale-100 group relative ml-4"
         aria-label="Redo"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#5f5f5f] transition-all active:scale-95" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 7v6h-6"/>
           <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/>
         </svg>
