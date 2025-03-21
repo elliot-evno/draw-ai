@@ -6,19 +6,19 @@ A fork of [Gemini Co-Drawing](https://huggingface.co/spaces/Trudy/gemini-codrawi
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- npm (v8 or higher)
+- pnpm (v8 or higher)
 - Google Gemini API key
 
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/vibe-drawing.git
-   cd vibe-drawing
+   git clone https://github.com/elliot-evno/draw-ai.git
+   cd draw-ai
    ```
 
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. Create a `.env` file in the root directory with your Gemini API key:
@@ -29,7 +29,7 @@ A fork of [Gemini Co-Drawing](https://huggingface.co/spaces/Trudy/gemini-codrawi
 ### Running Locally
 To start the development server:
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The application will be available at `http://localhost:3000`
