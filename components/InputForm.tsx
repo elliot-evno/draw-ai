@@ -1,4 +1,4 @@
-import { LoaderCircle, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useEffect } from "react";
 
 interface InputFormProps {
@@ -55,7 +55,15 @@ export default function InputForm({
               `}
             >
               {isLoading ? (
-                <LoaderCircle className={`animate-spin ${darkMode ? 'text-white' : 'text-black'}`} />
+                <div className="spinner" style={{
+                  width: '1.5em',
+                  height: '1.5em',
+                  cursor: 'not-allowed',
+                  borderRadius: '50%',
+                  border: darkMode ? '2px solid #222' : '2px solid #ddd',
+                  boxShadow: '-7px -7px 7px #6359f8, 0px -7px 7px 0px #9c32e2, 7px -7px 7px #f36896, 7px 0 7px #ff0b0b, 7px 7px 7px 0px#ff5500, 0 7px 7px 0px #ff9500, -7px 7px 7px 0px #ffb700',
+                  animation: 'rot55 0.7s linear infinite'
+                }}></div>
               ) : (
                 <Send className={`
                   ${darkMode 
@@ -89,6 +97,14 @@ export default function InputForm({
           darkMode ? 'bg-[#5241c9]' : 'bg-indigo-400'
         }`}></div>
       </div>
+
+      <style jsx>{`
+        @keyframes rot55 {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </form>
   );
 } 
