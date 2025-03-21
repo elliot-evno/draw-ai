@@ -26,10 +26,6 @@ export default function InputForm({
         <div className={`relative w-full h-16 opacity-90 overflow-hidden rounded-2xl z-10 ${
           darkMode ? 'bg-black' : 'bg-white'
         }`}>
-          <div className={`absolute z-10 -translate-x-44 group-hover:translate-x-[30rem] ease-in transition-all duration-500 h-full w-44 bg-gradient-to-r ${
-            darkMode ? 'from-gray-500 to-white/10' : 'from-gray-300 to-black/10'
-          } opacity-30 -skew-x-12`}></div>
-          
           <div className={`absolute flex items-center justify-center text-white z-[1] opacity-90 rounded-2xl inset-0.5 ${
             darkMode ? 'bg-black' : 'bg-white'
           }`}>
