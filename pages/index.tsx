@@ -11,7 +11,8 @@ import { submitDrawing } from "../utils/api";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [isEraserActive, setIsEraserActive] = useState(false);
+  const [previousPenColor, setPreviousPenColor] = useState<string | null>(null);
   
   const {
     canvasRef,
@@ -111,6 +112,24 @@ export default function Home() {
     link.click();
   };
 
+  const toggleEraser = () => {
+    setIsEraserActive(!isEraserActive);
+    
+    // When switching to eraser, we're essentially using white as the pen color
+    if (!isEraserActive) {
+      // Store the previous pen color for when we switch back
+      setPreviousPenColor(penColor);
+      setPenColor("#FFFFFF");
+    } else {
+      // Switch back to the previous pen color
+      if (previousPenColor) {
+        setPenColor(previousPenColor);
+      } else {
+        setPenColor("#000000");
+      }
+    }
+  };
+
   return (
     <>
       <Head>
@@ -134,6 +153,8 @@ export default function Home() {
               handleColorChange={handleColorChange}
               clearCanvas={clearCanvas}
               downloadCanvas={downloadCanvas}
+              toggleEraser={toggleEraser}
+              isEraserActive={isEraserActive}
             />
           </div>
           

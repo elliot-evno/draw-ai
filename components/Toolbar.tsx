@@ -1,4 +1,4 @@
-import { Trash2, Download } from "lucide-react";
+import { Trash2, Download, Eraser } from "lucide-react";
 
 interface ToolbarProps {
   undo: () => void;
@@ -12,6 +12,8 @@ interface ToolbarProps {
   handleColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   clearCanvas: () => void;
   downloadCanvas: () => void;
+  toggleEraser: () => void;
+  isEraserActive?: boolean;
 }
 
 export default function Toolbar({ 
@@ -25,7 +27,9 @@ export default function Toolbar({
   colorInputRef, 
   handleColorChange, 
   clearCanvas, 
-  downloadCanvas
+  downloadCanvas,
+  toggleEraser,
+  isEraserActive = false
 }: ToolbarProps) {
   return (
     <menu className="flex items-center bg-gray-300 rounded-full p-2 shadow-sm self-start sm:self-auto">
@@ -62,7 +66,16 @@ export default function Toolbar({
       <div className="w-px h-8 bg-gray-400 mx-3"></div>
       <button 
         type="button"
-        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110"
+        className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110 ${isEraserActive ? 'bg-blue-200 border-blue-500' : 'bg-white'}`}
+        onClick={toggleEraser}
+        aria-label={isEraserActive ? "Switch to pen" : "Switch to eraser"}
+        aria-pressed={isEraserActive}
+      >
+        <Eraser className="w-5 h-5 text-gray-700" />
+      </button>
+      <button 
+        type="button"
+        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110 ml-2"
         onClick={openColorPicker}
         onKeyDown={handleKeyDown}
         aria-label="Open color picker"
