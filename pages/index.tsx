@@ -7,10 +7,12 @@ import { useCanvas } from "../hooks/useCanvas";
 import { useKeyboardEvents } from "../hooks/useKeyboardEvents";
 import { useTouchEvents } from "../hooks/useTouchEvents";
 import { submitDrawing } from "../utils/api";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   
   const {
     canvasRef,
@@ -125,10 +127,14 @@ export default function Home() {
         <meta name="description" content="Gemini Co-Drawing" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen notebook-paper-bg text-gray-900 flex flex-col justify-start items-center">     
+      <div className="min-h-screen notebook-paper-bg text-gray-900 dark:text-gray-100 flex flex-col justify-start items-center transition-colors duration-300 relative">
+        <div className="fixed top-4 right-4 z-50">
+          <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+        </div>
+        
         <main className="container mx-auto px-3 sm:px-6 py-5 sm:py-10 pb-32 max-w-5xl w-full">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-2 sm:mb-6 gap-2">
-            <Header />
+            <Header darkMode={darkMode} />
             <Toolbar 
               undo={undo}
               redo={redo}
@@ -160,7 +166,7 @@ export default function Home() {
               onTouchStart={startDrawing}
               onTouchMove={draw}
               onTouchEnd={stopDrawing}
-              className="border-2 border-black w-full hover:cursor-crosshair sm:h-[60vh] h-[30vh] min-h-[320px] bg-white/90 touch-none"
+              className="border-2 border-black dark:border-gray-300 w-full hover:cursor-crosshair sm:h-[60vh] h-[30vh] min-h-[320px] bg-white/90 dark:bg-gray-800/90 touch-none"
             />
           </div>
           
