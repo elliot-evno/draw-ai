@@ -175,6 +175,7 @@ export default function Home() {
             setPrompt={setPrompt}
             handleSubmit={handleSubmit}
             isLoading={isLoading}
+            darkMode={darkMode}
           />
         </main>
       </div>
