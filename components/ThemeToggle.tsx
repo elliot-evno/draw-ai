@@ -63,7 +63,7 @@ export default function ThemeToggle({ className = '', darkMode, setDarkMode }: T
   const emojiStyle = {
     fontSize: '1.2em',
     lineHeight: 1,
-    position: 'relative',
+    position: 'relative' as const,
     top: '-0.05em', // Small adjustment to vertically center the emoji
   };
 
