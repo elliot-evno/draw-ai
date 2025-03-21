@@ -90,16 +90,16 @@ export default function Toolbar({
       
       <button 
         type="button"
-        className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110 ${isEraserActive ? 'bg-blue-200 border-blue-500' : 'bg-white'}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] group relative ${isEraserActive ? '!bg-blue-200' : ''}`}
         onClick={toggleEraser}
         aria-label={isEraserActive ? "Switch to pen" : "Switch to eraser"}
         aria-pressed={isEraserActive}
       >
-        <Eraser className="w-5 h-5 text-gray-700" />
+        <Eraser className="h-5 w-5 text-[#5f5f5f] transition-all active:scale-95" />
       </button>
       <button 
         type="button"
-        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm transition-transform hover:scale-110 ml-2"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] group relative ml-4"
         onClick={openColorPicker}
         onKeyDown={handleKeyDown}
         aria-label="Open color picker"
@@ -117,17 +117,18 @@ export default function Toolbar({
       <button
         type="button"
         onClick={clearCanvas}
-        className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 ml-2"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] group relative ml-4"
+        aria-label="Clear Canvas"
       >
-        <Trash2 className="w-5 h-5 text-gray-700" aria-label="Clear Canvas" />
+        <Trash2 className="h-5 w-5 text-[#5f5f5f] transition-all active:scale-95" />
       </button>
       <button
         type="button"
         onClick={downloadCanvas}
-        className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm transition-all hover:bg-gray-50 hover:scale-110 ml-2"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-[#c7c3c0] shadow-[4px_4px_6px_rgba(0,0,0,0.2),inset_1px_1px_1px_#ffffff,inset_-2px_-2px_4px_#c7c3c0] transition-all hover:scale-105 active:shadow-[0px_0px_0px_rgba(0,0,0,0.2),inset_0.5px_0.5px_2px_#000000,inset_-2px_-2px_4px_#c7c3c0] group relative ml-4"
         aria-label="Download Canvas"
       >
-        <Download className="w-5 h-5 text-gray-700" />
+        <Download className="h-5 w-5 text-[#5f5f5f] transition-all active:scale-95" />
       </button>
     </menu>
   );
