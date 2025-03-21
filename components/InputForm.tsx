@@ -1,4 +1,4 @@
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Send } from "lucide-react";
 import { useEffect } from "react";
 
 interface InputFormProps {
@@ -23,7 +23,7 @@ export default function InputForm({
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="relative group">
-        <div className={`relative w-full h-16 opacity-90 overflow-hidden rounded-2xl z-10 ${
+        <div className={`relative w-full h-16 opacity-90 overflow-hidden rounded-2xl z-10 flex items-center ${
           darkMode ? 'bg-black' : 'bg-white'
         }`}>
           <div className={`absolute flex items-center justify-center text-white z-[1] opacity-90 rounded-2xl inset-0.5 ${
@@ -34,13 +34,38 @@ export default function InputForm({
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="Add your change..."
-              className={`input focus:outline-none h-full opacity-90 w-full px-4 py-3 placeholder:text-xl rounded-2xl ${
+              className={`input focus:outline-none h-full opacity-90 w-full px-4 py-3 placeholder:text-xl rounded-l-2xl ${
                 darkMode 
                   ? 'bg-black text-white placeholder:text-[#D3CCD4]' 
                   : 'bg-white text-black placeholder:text-gray-500'
               }`}
               required
             />
+            <button 
+              type="submit" 
+              disabled={isLoading || !prompt.trim()}
+              className={`
+                h-full w-16 flex items-center justify-center 
+                rounded-r-2xl transition-colors duration-300
+                ${darkMode 
+                  ? 'bg-black hover:bg-[#1a1a1a]' 
+                  : 'bg-white hover:bg-gray-100'
+                }
+                ${(isLoading || !prompt.trim()) ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}
+              `}
+            >
+              {isLoading ? (
+                <LoaderCircle className={`animate-spin ${darkMode ? 'text-white' : 'text-black'}`} />
+              ) : (
+                <Send className={`
+                  ${darkMode 
+                    ? 'text-[#e4a9dd] hover:text-[#CE25A2]' 
+                    : 'text-pink-400 hover:text-pink-500'
+                  } 
+                  transition-colors duration-300
+                `} />
+              )}
+            </button>
           </div>
           
           <div className={`absolute group-hover:-left-[5px] group-hover:-top-[170px] transition-all duration-300 ease-out w-56 h-48 blur-[20px] -left-[150px] -top-[150px] ${
