@@ -9,6 +9,7 @@ export function useCanvas() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isEraser, setIsEraser] = useState(false);
 
   // Load background image when generatedImage changes
   useEffect(() => {
@@ -89,7 +90,7 @@ export function useCanvas() {
     const { x, y } = getCoordinates(e as React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>);
     ctx.lineWidth = 5;
     ctx.lineCap = "round";
-    ctx.strokeStyle = penColor;
+    ctx.strokeStyle = isEraser ? "#FFFFFF" : penColor;
     ctx.lineTo(x, y);
     ctx.stroke();
   };
@@ -172,6 +173,8 @@ export function useCanvas() {
     clearCanvas,
     undo,
     redo,
-    getCoordinates
+    getCoordinates,
+    isEraser,
+    setIsEraser
   };
 } 

@@ -11,8 +11,6 @@ import { submitDrawing } from "../utils/api";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isEraserActive, setIsEraserActive] = useState(false);
-  const [previousPenColor, setPreviousPenColor] = useState<string | null>(null);
   
   const {
     canvasRef,
@@ -31,6 +29,8 @@ export default function Home() {
     undo,
     redo,
     setGeneratedImage,
+    isEraser,
+    setIsEraser,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getCoordinates,
   } = useCanvas();
@@ -113,21 +113,7 @@ export default function Home() {
   };
 
   const toggleEraser = () => {
-    setIsEraserActive(!isEraserActive);
-    
-    // When switching to eraser, we're essentially using white as the pen color
-    if (!isEraserActive) {
-      // Store the previous pen color for when we switch back
-      setPreviousPenColor(penColor);
-      setPenColor("#FFFFFF");
-    } else {
-      // Switch back to the previous pen color
-      if (previousPenColor) {
-        setPenColor(previousPenColor);
-      } else {
-        setPenColor("#000000");
-      }
-    }
+    setIsEraser(!isEraser);
   };
 
   return (
@@ -154,7 +140,7 @@ export default function Home() {
               clearCanvas={clearCanvas}
               downloadCanvas={downloadCanvas}
               toggleEraser={toggleEraser}
-              isEraserActive={isEraserActive}
+              isEraserActive={isEraser}
             />
           </div>
           
